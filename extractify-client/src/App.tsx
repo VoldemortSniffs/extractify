@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "./utils/socket";
 import Marquee from "react-fast-marquee";
-import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
 
 interface PasswordGetterProps {
 	ssid: string;
@@ -10,29 +8,16 @@ interface PasswordGetterProps {
 }
 
 function App() {
-	const [isConnected, setIsConnected] = useState(socket.connected);
 	const [passwords, setPasswords] = useState<Array<PasswordGetterProps>>([]);
 
 	useEffect(() => {
-		function onConnect() {
-			setIsConnected(true);
-		}
-
-		function onDisconnect() {
-			setIsConnected(false);
-		}
-
 		const onPasswords = (passwords: Array<PasswordGetterProps>) => {
 			setPasswords(passwords);
 		};
 
-		socket.on("connect", onConnect);
-		socket.on("disconnect", onDisconnect);
 		socket.on("passwords", onPasswords);
 
 		return () => {
-			socket.off("connect", onConnect);
-			socket.off("disconnect", onDisconnect);
 			socket.off("passwords", onPasswords);
 		};
 	}, []);
