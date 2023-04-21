@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:5050';
+const URL = 'https://extractify-production.up.railway.app';
 
 export const socket = io(URL as string);
